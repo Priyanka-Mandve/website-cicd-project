@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CloudVision AI</title>
+</head>
+<body>
+
+<h1>CloudVision AI</h1>
+
+<input type="text" id="imageName" placeholder="Enter image name (e.g. virat.jpg)">
+<button onclick="analyzeImage()">Analyze</button>
+
+<h3>Result</h3>
+<pre id="result"></pre>
+
+<script>
+async function analyzeImage() {
+
+    const image = document.getElementById("imageName").value;
+
+    const response = await fetch(
+        "https://2qei91tzwl.execute-api.ap-south-1.amazonaws.com/analyze-image",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                bucket: "image-recognition-app-buckets",
+                image: image
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    document.getElementById("result").innerText =
+        JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
